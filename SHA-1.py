@@ -28,6 +28,26 @@ while len(bin_file_str) < 448:
 bin_file_length = str(binary_file)
 while len(bin_file_length) < 64:
     bin_file_length = "0" + bin_file_length
-print(bin_file_length)
 
-#
+# M = 512 bits. Message + 1 + Padding 0's + 64 bits of message length
+# padded with 0's on left
+M = bin_file_str + bin_file_length
+#print(M)
+
+
+# The input above is then split into 512 bit chunks (only 1 512 bit in this instance) - 
+# Skipping that...
+# Each chunk is then split into 16x 32 bit words.
+W = []
+start = 0
+end = 31
+
+while end <= 512:
+    
+    W.append(M[start:end])
+    start += 32
+    end += 32
+
+
+# Let the hash begin.......
+
