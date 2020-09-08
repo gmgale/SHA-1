@@ -1,8 +1,15 @@
+########################
+#   To do:
+#         Addition needs to be 2 mod 32
+#
+########################
+
+
 import math, binascii, random
 
 
 
-# Some bitwise logical functions.
+# Some bitwise logical functions for later.
 def ROTL(x, n, w):
   return((x << n & (2 ** w - 1)) | (x >> w - n))
 
@@ -70,23 +77,42 @@ bin_pad = "1" + bin_pad
 # Add the padding to the file
 binary_file = binary_file + bin_pad
 
-# The input above is then split into 512 bit chunks.
+# The input above is then split into M - 512 bit chunks.
 M = []
 i = 0
-
 
 while i + 512 <= len(binary_file):
     M.append(binary_file[i : i + 512])
     i += 512
 
-print(M)
-# Each chunk is then split into 16x 32 bit words.
-W = []
-start = 0
-end = 31
+
+# Process each m 512 bit block.
+for m in M:
+  i = 0
+  messageBlock = []
+  # Split the message M into 16x 32bit blocks.
+  while i <= 511:
+    messageBlock.append(m[i:i+32])
+    i += 32
 
 
-# Let the hash begin.......
+
+# Prepare the message schedule
+  W = []
+  for j in range(80):
+    if j <= 15:
+      W.append(int(messageBlock[j]))
+    else:
+      W.append([ROTL(W[j-3] + W[j-8] + W[j-14] + W[j-16]), 1, 32)]
+
+#init the working variables
+  a = H[0]
+  b = H[1]
+  c = H[2]
+  d = H[3]
+  e = H[4]
+
+
 
 
 
