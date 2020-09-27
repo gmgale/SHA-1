@@ -102,8 +102,11 @@ for m in M:
   for j in range(80):
     if j <= 15:
       W.append(int(messageBlock[j]))
+      print(W)
     else:
-      W.append([ROTL(W[j-3] + W[j-8] + W[j-14] + W[j-16]), 1, 32)]
+      W.append(ROTL(W[j-3] + W[j-8] + W[j-14] + W[j-16], 1, 32))
+  
+  print("W: " + str(W)) # Is this correct?
 
 #init the working variables
   a = H[0]
@@ -111,10 +114,3 @@ for m in M:
   c = H[2]
   d = H[3]
   e = H[4]
-
-
-
-
-
-
-#print(x)
